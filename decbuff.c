@@ -42,6 +42,12 @@ void put(Buff* buff, int val) {
   buff->write_index++;
 }
 
+void clear(Buff* buff) {
+  free(buff->buffer);
+  buff->buffer = NULL;
+  init(buff, buff->size, buff->decimation_factor);
+}
+
 void print(Buff* buff){
   printf("[write_index: %d, compression_index: %d]\n", buff->write_index, buff->compression_index);
   for (int i=0; i<buff->size; i++) {
