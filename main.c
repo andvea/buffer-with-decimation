@@ -3,7 +3,7 @@
 #include "decbuff.h"
 
 int main(){
-  Buff* myBuff;
+  Buff* myBuff = (Buff*)malloc(sizeof(Buff));
   int size;
   int decimation_factor;
 
