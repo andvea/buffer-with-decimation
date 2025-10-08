@@ -20,14 +20,14 @@ void compress(Buff* buff){
 
   // For each element starting from the last compressed one, save the first
   // for each decimation_factor elements if it's inside the buffer, 
-  // otherwise set it NULL
+  // otherwise set it 0
   for (int i=saved_element_index; i<buff->size; i++) {
     if (saved_element_index<buff->size) {
       buff->buffer[i] = buff->buffer[saved_element_index];
       saved_element_index += buff->decimation_factor;
       buff->compression_index++;
     } else {
-      buff->buffer[i] = NULL;
+      buff->buffer[i] = 0;
     }
   }
 
