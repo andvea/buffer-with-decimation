@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "decbuff.h"
 
-void init(Buff* buff, int size, int decimation_factor){
+void buff_init(Buff* buff, int size, int decimation_factor){
   buff->size = size;
   buff->decimation_factor = decimation_factor;
   buff->write_index = 0;
@@ -10,7 +10,7 @@ void init(Buff* buff, int size, int decimation_factor){
   buff->buffer = (int*)malloc(sizeof(int)*buff->size);
 }
 
-void compress(Buff* buff){
+void buff_compress(Buff* buff){
   // If you've compressed the whole buffer, then start again from first element
   if (buff->compression_index+1>=buff->size) buff->compression_index = -1;
 
@@ -35,20 +35,20 @@ void compress(Buff* buff){
   buff->write_index = buff->compression_index+1;
 }
 
-void put(Buff* buff, int val) {
-  if (buff->write_index >= buff->size) compress(buff);
+void buff_put(Buff* buff, int val) {
+  if (buff->write_index >= buff->size) buff_compress(buff);
 
   buff->buffer[buff->write_index] = val;
   buff->write_index++;
 }
 
-void clear(Buff* buff) {
+void buff_clear(Buff* buff) {
   free(buff->buffer);
   buff->buffer = NULL;
-  init(buff, buff->size, buff->decimation_factor);
+  buff_init(buff, buff->size, buff->decimation_factor);
 }
 
-void print(Buff* buff){
+void buff_print(Buff* buff){
   printf("[write_index: %d, compression_index: %d]\n", buff->write_index, buff->compression_index);
   for (int i=0; i<buff->size; i++) {
     printf("%d ", buff->buffer[i]);

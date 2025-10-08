@@ -12,9 +12,9 @@ typedef struct Buff {
   int compression_index;
 } Buff;
 
-void init(Buff* buff, int size, int decimation_factor);
-void compress(Buff* buff);
-void put(Buff* buff, int val);
-void print(Buff* buff);
+void buff_init(Buff* buff, int size, int decimation_factor);
+void buff_compress(Buff* buff);
+void buff_put(Buff* buff, int val);
+void buff_print(Buff* buff);
 
 #endif
