@@ -3,7 +3,6 @@
 #include "decbuff.h"
 
 int main(){
-  Buff* myBuff = (Buff*)malloc(sizeof(Buff));
   int size;
   int decimation_factor;
 
@@ -11,7 +10,7 @@ int main(){
   scanf("%d", &size);
   printf("Set decimation factor: ");
   scanf("%d", &decimation_factor);
-  buff_init(myBuff, size, decimation_factor);
+  Buff* myBuff = buff_init(size, decimation_factor);
 
   int inserted_int = 1;
   while (inserted_int!=0) {

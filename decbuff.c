@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include "decbuff.h"
 
-void buff_init(Buff* buff, int size, int decimation_factor){
+Buff* buff_init(int size, int decimation_factor){
+  Buff* buff = (Buff*)malloc(sizeof(Buff));
   buff->size = size;
   buff->decimation_factor = decimation_factor;
   buff->write_index = 0;
   buff->compression_index = -1;
   buff->buffer = (int*)malloc(sizeof(int)*buff->size);
+  return buff;
 }
 
 void buff_compress(Buff* buff){
@@ -45,7 +47,7 @@ void buff_put(Buff* buff, int val) {
 void buff_clear(Buff* buff) {
   free(buff->buffer);
   buff->buffer = NULL;
-  buff_init(buff, buff->size, buff->decimation_factor);
+  buff = buff_init(buff->size, buff->decimation_factor);
 }
 
 void buff_print(Buff* buff){

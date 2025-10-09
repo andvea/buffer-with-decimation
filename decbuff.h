@@ -12,7 +12,7 @@ typedef struct Buff {
   int compression_index;
 } Buff;
 
-void buff_init(Buff* buff, int size, int decimation_factor);
+Buff* buff_init(int size, int decimation_factor);
 void buff_compress(Buff* buff);
 void buff_put(Buff* buff, int val);
 void buff_print(Buff* buff);
