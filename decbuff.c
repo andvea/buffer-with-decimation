@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "decbuff.h"
 
 Buff* buff_init(int size, int decimation_factor){
@@ -16,25 +17,22 @@ void buff_compress(Buff* buff){
   // If you've compressed the whole buffer, then start again from first element
   if (buff->compression_index+1>=buff->size) buff->compression_index = -1;
 
-  // This is the index of the current element that is going to be conserved
-  // during compression, others are going to be deleted from buffer
-  int saved_element_index = buff->compression_index+1;
+  int start = buff->compression_index+1;
+  int write_index = start;
 
-  // For each element starting from the last compressed one, save the first
-  // for each decimation_factor elements if it's inside the buffer, 
-  // otherwise set it 0
-  for (int i=saved_element_index; i<buff->size; i++) {
-    if (saved_element_index<buff->size) {
-      buff->buffer[i] = buff->buffer[saved_element_index];
-      saved_element_index += buff->decimation_factor;
-      buff->compression_index++;
-    } else {
-      buff->buffer[i] = 0;
-    }
+  // Move compressed elements at the beginning of the buffer
+  for (int i=start; i<buff->size; i+=buff->decimation_factor) {
+    buff->buffer[write_index++] = buff->buffer[i];
   }
 
-  // After compression, you can write in buffer starting from last compressed element
-  buff->write_index = buff->compression_index+1;
+  // Set remaining slots with zeros
+  if (write_index < buff->size) {
+    memset(&buff->buffer[write_index], 0, (buff->size - write_index) * sizeof(buff->buffer[0]));
+  }
+
+  // Update indexes
+  buff->write_index = write_index;
+  buff->compression_index = write_index - 1;
 }
 
 void buff_put(Buff* buff, int val) {
