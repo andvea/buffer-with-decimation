@@ -44,6 +44,8 @@ void buff_put(Buff* buff, buff_data_type val){
 
 void buff_clear(Buff* buff){
   memset(buff->buffer, 0, buff->size * sizeof(buff->buffer[0]));
+  buff->write_index = 0;
+  buff->compression_index = -1;
 }
 
 void buff_delete(Buff* buff){
