@@ -18,6 +18,7 @@ int main(){
     scanf("%d", &inserted_int);
     buff_put(myBuff, inserted_int);
     buff_print(myBuff);
+    printf("\nBuffer is full (1 yes / 0 no)?: %d", buff_is_full(myBuff));
   }
   
   return 0;

@@ -9,7 +9,7 @@ Buff* buff_init(int size, int decimation_factor){
   buff->decimation_factor = decimation_factor;
   buff->write_index = 0;
   buff->compression_index = -1;
-  buff->buffer = (int*)malloc(sizeof(int)*buff->size);
+  buff->buffer = (buff_data_type*)malloc(sizeof(buff_data_type)*buff->size);
   return buff;
 }
 
@@ -35,22 +35,29 @@ void buff_compress(Buff* buff){
   buff->compression_index = write_index - 1;
 }
 
-void buff_put(Buff* buff, int val) {
+void buff_put(Buff* buff, buff_data_type val){
   if (buff->write_index >= buff->size) buff_compress(buff);
 
   buff->buffer[buff->write_index] = val;
   buff->write_index++;
 }
 
-void buff_clear(Buff* buff) {
+void buff_clear(Buff* buff){
+  memset(buff->buffer, 0, buff->size * sizeof(buff->buffer[0]));
+}
+
+void buff_delete(Buff* buff){
   free(buff->buffer);
   buff->buffer = NULL;
-  buff = buff_init(buff->size, buff->decimation_factor);
+}
+
+int buff_is_full(Buff* buff){
+  return (buff->write_index==buff->size);
 }
 
 void buff_print(Buff* buff){
   printf("[write_index: %d, compression_index: %d]\n", buff->write_index, buff->compression_index);
   for (int i=0; i<buff->size; i++) {
-    printf("%d ", buff->buffer[i]);
+    PRINT_BUFF_DATA(buff->buffer[i]);
   }
 }
