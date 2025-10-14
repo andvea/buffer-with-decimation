@@ -53,8 +53,8 @@ void buff_delete(Buff* buff){
   buff->buffer = NULL;
 }
 
-int buff_is_full(Buff* buff){
-  return (buff->write_index==buff->size);
+int buff_get_percentage(Buff* buff){
+  return (int)(((double)buff->write_index / buff->size) * 100);
 }
 
 void buff_print(Buff* buff){

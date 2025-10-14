@@ -20,7 +20,7 @@ void buff_compress(Buff* buff);
 void buff_put(Buff* buff, buff_data_type val);
 void buff_clear(Buff* buff);
 void buff_delete(Buff* buff);
-int buff_is_full(Buff* buff);
+int buff_get_percentage(Buff* buff);
 void buff_print(Buff* buff);
 
 #endif
